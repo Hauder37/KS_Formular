@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<!--OMINOUS CURRY V1.2.5
+    von Thomas Gruber
+    zur Abwicklung von Störungsanfragen von Vertriebs Mitarbeitern, sollte eine erleichterung bringen und einen Leitfaden durch das Gespräch bereit stellen
+    
+    bei Fragen, Problemen, Änderungen und Vorschlägen bitte bei mir melden.
+    
+    -->
+
+<head>
+    <h1 style="color: rgb(0, 0, 0);">KS Formular V1.2.5</h1>
+    <h3 id="JSwarning"style="color: red;">Wenn du das hier lesen kannst wird das Formular nicht richtig ausgeführt!<br>Bitte starte es als lokale Datei.</h3>
+</head>
+
+<script>// JS warning text
+    document.getElementById("JSwarning").innerHTML = "";
+</script>
+
+
+
+
+<script>//features to active/deactivate set values to true/false
+
+    let generatePLTDisplay = true;  //Generates PLT Stairlift Input & Output Display
+    let changeReciever = true;      //change the reciever of the email
+    let versionBeDropdown = true;   //changes the Lift version selector between Dropdown menu and textfield (to reduce errors this should be set to false)
+    let timecode = true             // adds Time code to the end of subject
+    let alreadyTicket = false        // adds Place for already existing Ticket, changes subject and adds Ticket Number at front 
+    let priorityManipulation = false //let emails be send with higher priority AvO (will not be used)
+    let generateCategoryDisplay = true // categories for tags 
+    let flagField = false            //modifier, for further use cases
+
+</script>
+
+<body style="background-color: rgb(211, 211, 211);">
+    <div style="background-color: rgb(211, 220, 211);">
+        <button onclick="cloneTab()">cln</button> <!--clones the tab-->
+        <br>
+        <label for="Händler/Kunde">Händler:</label><br>
+        <input style="width: 200px" type="text" id="nameCustomer" name="liftname"><br>
+        <label for="Monteur">Monteur / Endkunde:</label><br>
+        <input style="width: 200px" type="text" id="nameCaller" name="liftname"><br><br>
+
+
+
+        <script>
+            //extra option, when Ticket already exists, by adding text, changes subject text to "Add to" do simplify merging
+            if (alreadyTicket) {
+                document.write('<label for="Ticket Nummer">Ticket Nummer (Email for vcf):</label><br><input style="width: 200px" type="text" id="ticketNumber" name="liftname"><br>')
+            }
+        </script>
+
+
+        <!--Serial Number, merged from 3 Parts-->
+        <label for="liftType">Seriennummer:</label><br>
+        <select name="liftname" id="liftType">
+            <option value="">--</option>
+            <option value="PLG7">PLG7</option>
+            <option value="PLK8">PLK8</option>
+            <option value="PLV9">PLV9</option>
+            <option value="UP">UP</option>
+            <option value="QP">QP</option>
+            <option value="PL10">PL10</option>
+            <option value="KL10">KL10</option>
+            <option value="STL">STL</option>
+            <option value="Motala">MO</option>
+            <option value="SAT">SAT</option>
+            <option value="SDE">SDE</option>
+            <option value="SDE">SBE</option>
+            <option value="DIV">DIV</option>
+        </select>-
+
+
+
+
+        <script>
+            //version dropdown or textfield, can be set by changing the variable, default textfield 
+            if (versionBeDropdown) {
+                document.write('<select name="liftname" id="liftVersion">\
+            <option value="">--</option>\
+            <option value="11">11</option>\
+            <option value="10">10</option>\
+            <option value="09">09</option>\
+            <option value="08">08</option>\
+            <option value="07">07</option>\
+            <option value="06">06</option>\
+            <option value="05">05</option>\
+            <option value="04">04</option>\
+            <option value="03">03</option>\
+            <option value="02">02</option>\
+            <option value="01">01</option>\
+            <option value="">--</option>\
+            <option value="17">17</option>\
+            <option value="16">16</option>\
+            <option value="15">15</option>\
+            <option value="14">14</option>\
+            <option value="13">13</option>\
+            <option value="12">12</option>\
+        </select>');
+            } else {
+                document.write('<input style="width: 20px" maxlength="2" type="text" id="liftVersion" name="liftname">');
+            }
+        </script>
+
+
+        -<input style="width: 82px" type="text" id="liftNumber" name="liftname"><br><br>
+
+
+        <label for="ASC_number">ASC-Nummer:</label><br>
+        ASC-<input style="width: 163px" type="text" id="ASC_number" name="liftname"><br><br>
+
+        <label for="referenceName">Referenzname:</label><br>
+        <input style="width: 200px" type="text" id="referenceName" name="liftname"><br><br>
+
+        <label for="installationSide">Installation</label>
+        <select name="installationSide" id="installationSide">
+            <option value="">--</option>
+            <option value="Innen">Innenanlage</option>
+            <option value="Aussen">Aussenanlage</option>
+        </select><br><br>
+
+
+        <label for="buildYear">Baujahr:</label>
+        <select name="buildYear" id="buildYear">
+            <option value="">----</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+            <option value="2017">2017</option>
+            <option value="2016">2016</option>
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+            <option value="2013">2013</option>
+            <option value="2012">2012</option>
+            <option value="2011">2011</option>
+            <option value="2010">2010</option>
+            <option value="2009">2009</option>
+            <option value="2008">2008</option>
+            <option value="<2008">ALT</option>
+        </select>
+
+        <br><br>
+        <!--scenario gets placed in email head-->
+        <label for="scenario">Telefonat Grund:</label><br>
+        <select name="scenario" id="scenario">
+            <option value="Störung">Störung</option>
+            <option value="Technische Frage">Technische Frage</option>
+            <option value="Ersatzteil Bestellung">Ersatzteil Bestellung</option>
+            <option value="Service Wartung/Reperatur">Service Wartung/Reperatur</option>
+            <option value="Divers">Divers</option>
+        </select>
+
+        <input type="checkbox" id="Anrufer vor Ort" value="true" name="Anrufer vor Ort">
+        <label for="Anrufer vor Ort">Anrufer vor Ort</label><br><br>
+
+        <label for="telephoneNumber">Telefonnummer:</label><br>
+
+        <textarea style="width: 400px" id="telephoneNumber"></textarea>
+        <br><br>
+
+    </div>
+    <script>
+        if (flagField) {
+            document.write("<div style='background-color: rgb(230, 211, 211);'><label for='flags'>Flags:</label><br>\
+                <input style='width: 200px' type='flags' id='flags' name='flags'><br><br></div>")
+        }
+
+    </script>
+    <div style="background-color: rgb(211, 211, 230);">
+        <br>
+        <p1>Infos, Adresse, Problembeschreibung:</p1><br>
+        <textarea style="width: 600px; height: 100px" id="description"></textarea><br><br>
+        <br>
+
+        <label for="positionPLT">Position Lift (PLT):</label><br><br>
+
+        Bergschranke:<select name="barHill" id="barHill">
+            <option value="nicht angegeben">NA</option>
+            <option value="Abnormal">Abnormal</option>
+            <option value="Offen">Offen</option>
+            <option value="Waggrecht">Waggrecht</option>
+            <option value="Geschlossen">Geschlossen</option>
+        </select>
+        Talschranke:<select name="barValley" id="barValley">
+            <option value="nicht angegeben">NA</option>
+            <option value="Abnormal">Abnormal</option>
+            <option value="Offen">Offen</option>
+            <option value="Waggrecht">Waggrecht</option>
+            <option value="Geschlossen">Geschlossen</option>
+        </select>
+        Plattform:<select name="platformPosition" id="platformPosition">
+            <option value="nicht angegeben">NA</option>
+            <option value="Offen">Offen</option>
+            <option value="fast offen 15°">fast offen 15°</option>
+            <option value="fast geschlossen 80°">fast geschlossen 80°</option>
+            <option value="Geschlossen">Geschlossen</option>
+        </select>
+        <br><br>
+        Lift steht:<select name="liftPosition" id="liftPosition">
+            <option value="nicht angegeben">NA</option>
+            <option value="Talstation">Talstation</option>
+            <option value="Bergstation">Bergstation</option>
+            <option value="zwischen denn Haltestellen">zwischen denn Haltestellen</option>
+            <option value="Parkposition">Parkposition</option>
+        </select>
+        <br> <br>
+
+        <!--additional categories, maybe removed or changed in future...-->
+        <script>
+            if (generateCategoryDisplay) {
+                document.write('\
+        <input type="checkbox" id="Lift Reagiert nicht" value="true" name="Lift Reagiert nicht">\
+        <label style="margin-right: 25px" for="Lift Reagiert nicht">Lift Reagiert nicht</label>\
+        <input type="checkbox" id="Fehler Weg/Impuls Sensor" value="true" name="Fehler Weg/Impuls Sensor">\
+        <label style="margin-right: 25px" for="Fehler Weg/Impuls Sensor">Fehler Weg/Impuls Sensor</label>\
+        <input type="checkbox" id="Fährt nicht los" value="true" name="Fährt nicht los">\
+        <label style="margin-right: 25px" for="Fährt nicht los">Fährt nicht los</label>\
+        <input type="checkbox" id="Inbetriebnahme" value="true" name="Inbetriebnahme">\
+        <label style="margin-right: 25px" for="Inbetriebnahme">Inbetriebnahme</label>\
+        <input type="checkbox" id="Sicherung F2 (7,5A) Defekt" value="true" name="Sicherung F2 (7,5A) Defekt">\
+        <label style="margin-right: 25px" for="Sicherung F2 (7,5A) Defekt">Sicherung F2 (7,5A) Defekt</label>\
+        <input type="checkbox" id="Piepst" value="true" name="Piepst">\
+        <label style="margin-right: 25px" for="Piepst">Piepst</label>\
+        <input type="checkbox" id="Schranken abnormale Stellung" value="true" name="Schranken abnormale Stellung">\
+        <label style="margin-right: 25px" for="Schranken abnormale Stellung">Schranken abnormale Stellung</label>\
+        <br><br>\
+        <input type="checkbox" id="Plattform öffnet nicht" value="true" name="Plattform öffnet nicht">\
+        <label style="margin-right: 25px" for="Plattform öffnet nicht">Plattform öffnet nicht</label>\
+        <input type="checkbox" id="Ladebalken" value="true" name="Ladebalken">\
+        <label style="margin-right: 25px" for="Ladebalken">Ladebalken</label>\
+        <input type="checkbox" id="Fehler GSM Modul" value="true" name="Fehler GSM Modul">\
+        <label style="margin-right: 25px" for="Fehler GSM Modul">Fehler GSM Modul</label>\
+        <input type="checkbox" id="überlast Schrankenmotor" value="true" name="überlast Schrankenmotor">\
+        <label style="margin-right: 25px" for="überlast Schrankenmotor">überlast Schrankenmotor</label>\
+        <input type="checkbox" id="überlast Plattformmotor" value="true" name="überlast Plattformmotor">\
+        <label style="margin-right: 25px" for="überlast Plattformmotor">überlast Plattformmotor</label>\
+        <input type="checkbox" id="Türe öffnet nicht/falsch" value="true" name="Türe öffnet nicht/falsch">\
+        <label style="margin-right: 25px" for="Türe öffnet nicht/falsch">Türe öffnet nicht/falsch</label>\
+        <input type="checkbox" id="Lift zeigt keine Ladung" value="true" name="Lift zeigt keine Ladung">\
+        <label style="margin-right: 25px" for="Lift zeigt keine Ladung">Lift zeigt keine Ladung</label>\
+        ')
+            }
+        </script>
+        <!--
+        <input type="checkbox" id="x" value="true" name="x">
+        <label style="margin-right: 25px" for="x">x</label>
+        -->
+
+        <br><br>
+
+
+    </div>
+    <script>
+
+
+        //generate PLT Display, only visible when site is fully loaded and JS is activ
+
+        if (generatePLTDisplay) {
+            function barrier(leng) {
+                document.write("<br>")
+                for (let i = 0; i <= leng; i++) {
+                    document.write("_")
+                }
+                document.write("<br>")
+            }
+
+            let docFrag1 = document.createDocumentFragment();
+            let docFrag2 = document.createDocumentFragment();
+            let docFrag3 = document.createDocumentFragment();
+            let docFrag4 = document.createDocumentFragment();
+
+            //let docLabel = document.createDocumentFragment();
+            //default inputs that are activated in normal cases, to make differences better visible
+            presetInputValueL1 = [6, 7, 8, 9, 10, 11, 12]
+            presetInputValueL2 = [21, 24, 26, 27]
+            presetInputValueL3 = [54, 55]
+            let indexStringformat = ""
+            let checkboxCore = ""
+            for (let i = 0; i <= 19; i++) {
+                indexStringformat = i.toString();
+                checkboxCore = document.createElement('input');
+                checkboxCore.id = i.toString();
+                checkboxCore.type = 'checkbox';
+                checkboxCore.value = 'true';
+                for (j in presetInputValueL1) {
+                    if (i === presetInputValueL1[j]) {
+                        checkboxCore.checked = 'true';
+                    }
+                };
+                docFrag1.appendChild(checkboxCore);
+                let labelCore = document.createElement('label');
+                labelCore.for = indexStringformat;
+                if (i <= 9) {
+                    labelCore.textContent = "0" + indexStringformat;
+                } else {
+                    labelCore.textContent = indexStringformat;
+                }
+                labelCore.style = "margin-right: 10px"
+                docFrag1.appendChild(labelCore);
+            }
+
+            for (let i = 20; i <= 39; i++) {
+                indexStringformat = i.toString();
+                checkboxCore = document.createElement('input');
+                checkboxCore.id = i.toString();
+                checkboxCore.type = 'checkbox';
+                checkboxCore.value = 'true';
+                for (j in presetInputValueL2) {
+                    if (i === presetInputValueL2[j]) {
+                        checkboxCore.checked = 'true';
+                    }
+                };
+                docFrag2.appendChild(checkboxCore);
+                let labelCore = document.createElement('label');
+                labelCore.for = indexStringformat;
+                labelCore.textContent = indexStringformat;
+                labelCore.style = "margin-right: 10px"
+                docFrag2.appendChild(labelCore);
+            }
+
+            for (let i = 40; i <= 56; i++) {
+                indexStringformat = i.toString();
+                checkboxCore = document.createElement('input');
+                checkboxCore.id = i.toString();
+                checkboxCore.type = 'checkbox';
+                checkboxCore.value = 'true';
+                for (j in presetInputValueL3) {
+                    if (i === presetInputValueL3[j]) {
+                        checkboxCore.checked = 'true';
+                    }
+                };
+                docFrag3.appendChild(checkboxCore);
+                let labelCore = document.createElement('label');
+                labelCore.for = indexStringformat;
+                labelCore.textContent = indexStringformat;
+                labelCore.style = "margin-right: 10px"
+                docFrag3.appendChild(labelCore);
+            }
+
+            for (let i = 0; i <= 21; i++) {
+                indexStringformat = i.toString();
+                checkboxCore = document.createElement('input');
+                //checkboxCore.id = i.toString();
+                if (i <= 9) {
+                    checkboxCore.id = "A0" + indexStringformat;
+                } else {
+                    checkboxCore.id = "A" + indexStringformat;
+                }
+                checkboxCore.type = 'checkbox';
+                checkboxCore.value = 'true';
+                //console.log(checkboxCore.id)
+                docFrag4.appendChild(checkboxCore);
+                let labelCore = document.createElement('label');
+                labelCore.for = indexStringformat;
+                if (i <= 9) {
+                    labelCore.textContent = "0" + indexStringformat;
+                } else {
+                    labelCore.textContent = indexStringformat;
+                }
+                labelCore.style = "margin-right: 10px"
+                docFrag4.appendChild(labelCore);
+            }
+
+
+            barrier(127)
+            document.write("DIN 01-19||| ")
+            document.body.appendChild(docFrag1);
+            barrier(127)
+            document.write("DIN 20-39||| ")
+            document.body.appendChild(docFrag2);
+            barrier(127)
+            document.write("DIN 40-56||| ")
+            document.body.appendChild(docFrag3);
+            barrier(127)
+            document.write("<br>OUT 00-21||| ")
+            document.body.appendChild(docFrag4);
+            //document.write("</div>");
+        }
+    </script>
+
+    <!--Cheboxes input this part replacing trough faster and smaller version, provisionally!!-->
+
+
+
+    <!--Checkboxes-->
+    <br>
+
+
+
+    <br>
+    <p1>Sprachen:</p1><br>
+
+    <form>
+
+        <input type="radio" id="English" value="true" name="language">
+        <label for="language">English</label><br>
+
+        <input type="radio" id="Andere Sprachen" value="true" name="language">
+        <label for="language">Andere Sprachen</label><br>
+
+    </form>
+
+    <br>
+
+    <script>
+        if (changeReciever) {
+            document.write('<select name="emailReciever" id="emailReciever">\
+                <option value="kundenservice@ascendor.at">Kundenservice</option>\
+              </select>')
+        }
+    </script>
+
+    <button onclick="sendMail(); return false">Email an Kundenservice Senden</button>
+    <br><br>
+
+    <p1>Form Löschen Firefox : strg + F5 , Chrome & Edge : F5</p1>
+
+</body>
+
+<script>
+    //clones the url and opens a new empty form in a new tap
+    function cloneTab() {
+        let currentTab = window.location.href;
+        let cloning = window.open(currentTab, '');
+    }
+
+
+    //sendMail creates long string that gets send to mailto function (emailHead emailBody)
+    function sendMail() {
+
+        //input to variabels
+        let nameCustomer = document.getElementById('nameCustomer').value; //Händler
+        let nameCaller = document.getElementById('nameCaller').value; //Anrufer
+        let ticketNumber = ""; // generates empty variable, later adds value, so no error occurs when option disabled
+        if (alreadyTicket) {
+            ticketNumber = document.getElementById('ticketNumber').value; // already existing to customer care, option only usable when alredyTicket is active
+        }
+        let scenario = document.getElementById('scenario').value; // Störung, Ersatzteil ...
+        let liftType = document.getElementById('liftType').value; // PLG7, PLK8 ...
+        let liftVersion = document.getElementById('liftVersion').value; // 10, 06, ....
+        let headLiftVersion = "";
+        let liftNumber = document.getElementById('liftNumber').value; // 03989
+        let ASC_number = document.getElementById('ASC_number').value; // ASC-xxxxxx
+        let installationSide = document.getElementById('installationSide').value; // Innenanlage, Aussenanlage
+        let buildYear = document.getElementById('buildYear').value; // BauJahr
+        let referenceName = document.getElementById('referenceName').value; // "Müller"
+
+        let telephoneNumber = document.getElementById('telephoneNumber').value; // number for trimmer
+        let barHill = document.getElementById('barHill').value;
+        let barValley = document.getElementById('barValley').value;
+        let platformPosition = document.getElementById('platformPosition').value;
+        let liftPosition = document.getElementById('liftPosition').value;
+        let emailReciever = ""
+        let flags = "" //manipulator, not for normal use
+
+        if (flagField) {
+            console.log("Flagfield activ");
+            flags = document.getElementById('flags').value;
+        }
+
+
+        //option to change reciever, by default deactivated
+        if (changeReciever) {
+            emailReciever = document.getElementById('emailReciever').value
+        }
+        else {
+            emailReciever = "kundenservice@ascendor.at"
+        }
+
+        //Phone number trimmer, removes extra Text etc from Phone number if pasted from Phone Programm, if no phone number is detected, simply gives back whole text
+        try {
+            let regexTelephoneNumber = /(?:[-+() ]*\d){7,20}/gm;
+            let rawTelephoneNumber = telephoneNumber;
+            let trimedTelephoneNumber = rawTelephoneNumber.match(regexTelephoneNumber).map(function (s) { return s.trim(); });
+            trimedTelephoneNumber = trimedTelephoneNumber.toString()
+            telephoneNumber = trimedTelephoneNumber.replace('0-00', '+');
+            console.log("passed Trimmer");
+        } catch {
+            telephoneNumber = telephoneNumber
+        }
+
+
+        //creation of varaible presets, will kept empty if not nessecary
+        let Sprache = ""
+        let MonteurVO = ""
+        let displayCluster = ""
+        let strCluster = ""
+        let emailHead = ""
+        let emailBody = ""
+        let behaviorLift = ""
+
+        if (document.getElementById('Anrufer vor Ort').checked) {
+            MonteurVO = "AvO"
+        }
+
+        if (generatePLTDisplay) {
+            let indexStringformat = ""
+            for (let i = 0; i <= 56; i++) {
+                //console.log(i)
+                indexStringformat = i.toString();
+                displayCluster = (document.getElementById(indexStringformat).checked) ? displayCluster + indexStringformat + " " : displayCluster + "_ ";
+                if (i === 19 || i === 39 || i === 56) {
+                    displayCluster = displayCluster + "\n\n";
+                }
+            }
+
+            for (let i = 0; i <= 21; i++) {
+                if (i <= 9) {
+                    indexStringformat = "A0" + i.toString();
+                } else {
+                    indexStringformat = "A" + i.toString();
+                }
+                displayCluster = (document.getElementById(indexStringformat).checked) ? displayCluster + indexStringformat + " " : displayCluster + "_ ";
+            }
+        }
+        //strCluster activated checkboxes get added to strCluster and will be displaeyd in tags section, (maybe better way of dealing in future ?)
+        if (generateCategoryDisplay) {
+            strCluster = (document.getElementById('Lift Reagiert nicht').checked) ? strCluster + "Lift Reagiert nicht, " : strCluster;
+            strCluster = (document.getElementById('Fehler Weg/Impuls Sensor').checked) ? strCluster + "Fehler Weg/Impuls Sensor, " : strCluster;
+            strCluster = (document.getElementById('Fährt nicht los').checked) ? strCluster + "Fährt nicht los, " : strCluster;
+            strCluster = (document.getElementById('Inbetriebnahme').checked) ? strCluster + "Inbetriebnahme, " : strCluster;
+            strCluster = (document.getElementById('Sicherung F2 (7,5A) Defekt').checked) ? strCluster + "Sicherung F2 (7,5A) Defekt, " : strCluster;
+            strCluster = (document.getElementById('Piepst').checked) ? strCluster + "Piepst, " : strCluster;
+            strCluster = (document.getElementById('Schranken abnormale Stellung').checked) ? strCluster + "Schranken abnormale Stellung, " : strCluster;
+            strCluster = (document.getElementById('Plattform öffnet nicht').checked) ? strCluster + "Plattform öffnet nicht, " : strCluster;
+            strCluster = (document.getElementById('Ladebalken').checked) ? strCluster + "Ladebalken, " : strCluster;
+            strCluster = (document.getElementById('Fehler GSM Modul').checked) ? strCluster + "Fehler GSM Modul, " : strCluster;
+
+            strCluster = (document.getElementById('überlast Schrankenmotor').checked) ? strCluster + "überlast Schrankenmotor, " : strCluster;
+            strCluster = (document.getElementById('überlast Plattformmotor').checked) ? strCluster + "überlast Plattformmotor, " : strCluster;
+            strCluster = (document.getElementById('Türe öffnet nicht/falsch').checked) ? strCluster + "Türe öffnet nicht/falsch, " : strCluster;
+            strCluster = (document.getElementById('Lift zeigt keine Ladung').checked) ? strCluster + "Lift zeigt keine Ladung, " : strCluster;
+        }
+
+
+        if (liftType === "PLG7" | liftType === "PLK8" | liftType === "PLV9" | liftType === "UP") {
+            if (liftPosition === "nicht angegeben" && barHill === "nicht angegeben" && barValley === "nicht angegeben" && platformPosition === "nicht angegeben") {
+
+                behaviorLift = "";
+            }
+            else {
+                behaviorLift = "Lift steht " + liftPosition + ", Bergschranke ist " + barHill + ", Talschranke ist " + barValley + ",Plattform ist " + platformPosition + "\n" + displayCluster + "\n\n";
+
+            }
+        }
+
+        //strCluster = (document.getElementById('X').checked) ? strCluster + "X, " : strCluster;
+
+        //console.log(strCluster)
+
+        if (document.getElementById('English').checked) {
+            Sprache = "Spricht Englisch"
+        } else if (document.getElementById('Andere Sprachen').checked) {
+            Sprache = "Spricht eine Andere Sprache"
+        }
+
+        console.log(displayCluster);
+        //forming of the Email
+        let currentTime = new Date()
+
+
+        if (timecode) {
+            displayedTime = "D" + currentTime.getDate() + " H" + currentTime.getHours() + " M" + currentTime.getMinutes(); //adds time to the end of subject text
+        } else {
+            displayedTime = "";
+        }
+
+        //displayedTime = currentTime.getDate() + " " + currentTime.getHours();
+        //emailHead = scenario + " " + liftType + " " + nameCustomer + " " + nameCaller + " " + displayedTime; // old head
+        //___________________________________flags
+        preventEmail = false
+
+        if (flags.search("-t") >= 0) {
+            navigator.clipboard.writeText(telephoneNumber);
+            preventEmail = true;
+            //<-- "-t" should only save the Phone number to clipboard and not generate email
+        }
+        if (flags.search("-s") >= 0) {
+            navigator.clipboard.writeText(liftType + "-" + liftVersion + "-" + liftNumber);
+            preventEmail = true;
+            //<-- "-s" should only save the Serial number to clipboard and not generate email
+        }
+        if (flags.search("-c") >= 0) {
+            strCluster = "";
+            behaviorLift = "";
+            //clears strCluster and lift behavior for shorter message
+        }
+        if (flags.search("-k") >= 0) {
+            navigator.clipboard.writeText(nameCaller + " | " + nameCustomer + "\n" + telephoneNumber);
+            preventEmail = true
+            //makes small contact form
+        }
+        if (flags.search("-e") >= 0) {
+            executableEval = flags.slice(2);
+            eval(executableEval)
+            //executes everything that gets entered after the flag, please avoid , can cause problems 
+        }
+
+        if (flags.search("-v") >= 0) {
+            let generateVcard = "begin:vcard\nfn:" + nameCaller + "\norg:" + nameCustomer + "\ntel;work:" + telephoneNumber + "\nemail:"+ ticketNumber + "\nversion:1\nend:vcard";
+            let VCFFile = new File([generateVcard], 'contact.vcf', {
+                type: 'text/plain',
+            })
+
+            let link = document.createElement('a')
+            let url = URL.createObjectURL(VCFFile)
+
+            link.href = url
+            link.download = VCFFile.name
+            document.body.appendChild(link)
+            link.click()
+
+            document.body.removeChild(link)
+            window.URL.revokeObjectURL(url)
+            //navigator.clipboard.writeText(generateVcard);
+            preventEmail = true
+            //genereates vcf and saves it as file
+        }
+
+        if (flags.search("-r") >= 0){
+            navigator.clipboard.writeText("KS " + liftType + "-" + liftVersion + "-" + liftNumber + " \"" + referenceName + "\"");
+            preventEmail = true;
+        }
+
+
+        //___________________________________flags
+
+
+        // adds liftversion to head
+        if (liftVersion != ""){
+            headLiftVersion = "-" + liftVersion + " ";
+        }
+
+
+
+        if (alreadyTicket) {
+            if (ticketNumber == "") {
+                emailHead = liftType + headLiftVersion + MonteurVO + " " + nameCaller + " " + nameCustomer + " " + scenario + " " + displayedTime; // new head
+            } else {
+                emailHead = "Add to " + ticketNumber + " " + ASC_number; // Ticket head
+            }
+        } else {
+            emailHead = liftType + headLiftVersion + " " + MonteurVO + " " + nameCaller + " " + nameCustomer + " " + scenario + " " + displayedTime; // new head
+        }
+
+        
+        //strCluster = (document.getElementById('überlast Schrankenmotor').checked) ? strCluster + "überlast Schrankenmotor, " : strCluster;
+        if (ASC_number != ""){
+            if (ASC_number.startsWith('ASC') == false){
+                ASC_number = "ASC-" + ASC_number
+            }
+        }
+
+        let printASC_Nummer = ASC_number === "" ? "" : "\n\nASC-Nummer:\n";
+        let print_installationSide = installationSide === "" ? "" : "\n\nInstallation:\n";
+        let printBaujahr = buildYear === "" ? "" : "\n\nBaujahr:\n";
+        let printRefernceName = referenceName === "" ? "" : "\n\nReferenzname:\n";
+        let printTelephoneNumber = telephoneNumber === "" ? "" : "\n\nTelefonnummer:\n";
+
+        emailBody = "Info: \n" + document.getElementById('description').value + "\n\n" + "Seriennummer: \n" + liftType + "-" + liftVersion + "-" + liftNumber + printASC_Nummer + ASC_number + print_installationSide + installationSide + printBaujahr + buildYear + printRefernceName + referenceName + printTelephoneNumber + telephoneNumber + "\n\n";
+        emailBody = emailBody + behaviorLift
+        emailBody = emailBody + "> " + Sprache + ", " + "\n\nTags: " + strCluster;
+        //console.log(emailHead);
+        //console.log(emailBody);
+        // & catch and replace with u. so mailto link doesn't gets wrong command
+        emailHead = emailHead.replace("&", "u.");
+        emailBody = emailBody.replace("&", "u.");
+
+        let mailtolink = "mailto:" + emailReciever + "?subject=" + emailHead + "&x-priority=1" + "&body=" + emailBody;
+
+        //generating Link and giving command to open email system
+        mailtolink = encodeURI(mailtolink);
+        //console.log(mailtolink);
+        if (!preventEmail) {
+            window.location.href = mailtolink;
+        }
+    }
+</script>
+</body>
+
+</html>
