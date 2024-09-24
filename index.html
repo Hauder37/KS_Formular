@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<!--OMINOUS CURRY V1.2.5
+<!--OMINOUS CURRY V1.2.5 {pages version}
     von Thomas Gruber
     zur Abwicklung von Störungsanfragen von Vertriebs Mitarbeitern, sollte eine erleichterung bringen und einen Leitfaden durch das Gespräch bereit stellen
     
@@ -23,7 +23,7 @@
 <script>//features to active/deactivate set values to true/false
 
     let generatePLTDisplay = true;  //Generates PLT Stairlift Input & Output Display
-    let changeReciever = true;      //change the reciever of the email
+    let changeReciever = false;      //change the reciever of the email
     let versionBeDropdown = true;   //changes the Lift version selector between Dropdown menu and textfield (to reduce errors this should be set to false)
     let timecode = true             // adds Time code to the end of subject
     let alreadyTicket = true        // adds Place for already existing Ticket, changes subject and adds Ticket Number at front 
@@ -411,10 +411,7 @@
         if (changeReciever) {
             document.write('<select name="emailReciever" id="emailReciever">\
                 <option value="kundenservice@ascendor.at">Kundenservice</option>\
-                <option value="thomas.gruber@ascendor.at">Thomas</option>\
-                <option value="johannes.hofbauer@ascendor.at">Johannes</option>\
-                <option value="andreas.keplinger@ascendor.at">Andreas</option>\
-                <option value="thomas.gruber28@gmail.com">Test</option></select>')
+                ')
         }
     </script>
 
